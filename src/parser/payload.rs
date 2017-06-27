@@ -112,7 +112,7 @@ pub fn parse_payload(mut stream: &mut BitReader<BigEndian>, mut count: &mut usiz
       let pes_packet_length = stream.read::<u16>(16).unwrap();
       *count += 2;
 
-      let mut header = None;
+      let header = None;
       let mut additional_data = vec![];
 
       // if pes_packet_length == 0 {
