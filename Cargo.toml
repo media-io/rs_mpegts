@@ -1,0 +1,8 @@
+[package]
+name = "mpegts"
+version = "0.1.0"
+authors = ["Marc-Antoine Arnaud <marc.antoine@nomalab.com>"]
+
+[dependencies]
+bitstream-io = "0.6.1"
+crc = "1.4.0"
