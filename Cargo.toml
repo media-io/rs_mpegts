@@ -1,7 +1,13 @@
 [package]
 name = "mpegts"
 version = "0.1.0"
-authors = ["Marc-Antoine Arnaud <marc.antoine@nomalab.com>"]
+authors = ["Marc-Antoine Arnaud <arnaud.marcantoine@gmail.com>"]
+description = """
+Library to read/write following ITU-T Rec. H.222.0 (MpegTS) standard.
+"""
+license = "MIT"
+repository = "https://github.com/media-io/rs_mpegts"
+documentation = "https://docs.rs/mpegts"
 
 [dependencies]
 bitstream-io = "0.6.1"
