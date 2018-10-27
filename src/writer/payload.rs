@@ -11,7 +11,7 @@ use mpegts::stream_id::StreamId;
 use writer::table_id::get_table_id;
 use writer::stream_id::get_stream_id;
 
-pub fn write_payload(mut writer: &mut BitWriter<BigEndian>, payload: &Option<Payload>) {
+pub fn write_payload(writer: &mut BitWriter<BigEndian>, payload: &Option<Payload>) {
   match *payload {
     None => {},
     Some(ref p) => {

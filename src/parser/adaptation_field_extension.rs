@@ -2,7 +2,7 @@
 use bitstream_io::{BigEndian, BitReader};
 use mpegts::adaptation_field_extension::AdaptationFieldExtension;
 
-pub fn parse_adaptation_field_extension(mut stream: &mut BitReader<BigEndian>, mut count: &mut usize) -> Option<AdaptationFieldExtension> {
+pub fn parse_adaptation_field_extension(stream: &mut BitReader<BigEndian>, count: &mut usize) -> Option<AdaptationFieldExtension> {
   let _adaptation_extension_length = stream.read::<u8>(8).unwrap();
 
   let legal_time_window_flag = stream.read_bit().unwrap();

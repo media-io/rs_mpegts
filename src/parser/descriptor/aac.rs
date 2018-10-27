@@ -2,7 +2,7 @@
 use bitstream_io::{BigEndian, BitReader};
 use mpegts::descriptor::aac::*;
 
-pub fn parse_descriptor(mut stream: &mut BitReader<BigEndian>) -> Aac {
+pub fn parse_descriptor(stream: &mut BitReader<BigEndian>) -> Aac {
   let _descriptor_id = stream.read::<u8>(8).unwrap();
   let descriptor_length = stream.read::<u8>(8).unwrap();
   let profile_and_level = stream.read::<u8>(8).unwrap();
@@ -22,7 +22,7 @@ pub fn parse_descriptor(mut stream: &mut BitReader<BigEndian>) -> Aac {
   }
 
   let mut additional_info = vec![0; descriptor_length as usize - count];
-  stream.read_bytes(&mut additional_info);
+  let _ = stream.read_bytes(&mut additional_info);
 
   Aac{
     profile_and_level: profile_and_level,

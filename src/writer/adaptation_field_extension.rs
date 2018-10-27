@@ -38,7 +38,7 @@ pub fn write(afe: &AdaptationFieldExtension) -> Vec<u8> {
   data
 }
 
-pub fn write_adaptation_field_extension(mut writer: &mut BitWriter<BigEndian>, adaptation_field_extension: &Option<AdaptationFieldExtension>) {
+pub fn write_adaptation_field_extension(writer: &mut BitWriter<BigEndian>, adaptation_field_extension: &Option<AdaptationFieldExtension>) {
 
   match *adaptation_field_extension {
     None => {},

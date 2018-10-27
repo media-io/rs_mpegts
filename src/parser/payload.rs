@@ -1,7 +1,7 @@
 
 use std::cmp;
 
-use std::io::{Read, Cursor};
+use std::io::Cursor;
 use bitstream_io::{BigEndian, BitReader};
 use mpegts::payload::Payload;
 use mpegts::table_id::TableId;
@@ -15,7 +15,7 @@ use parser::table_id::get_table_id;
 use parser::program_descriptor::get_descriptor_id;
 use parser::descriptor::hevc::*;
 
-fn parse_table(stream: &mut BitReader<BigEndian>, mut count: &mut usize, length: u16) -> (u16, Vec<u8>) {
+fn parse_table(stream: &mut BitReader<BigEndian>, count: &mut usize, length: u16) -> (u16, Vec<u8>) {
   let table_id_extension = stream.read::<u16>(16).unwrap();
   let _reserved = stream.read::<u8>(2).unwrap();
   let _version = stream.read::<u8>(5).unwrap();

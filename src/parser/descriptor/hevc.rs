@@ -2,9 +2,9 @@
 use bitstream_io::{BigEndian, BitReader};
 use mpegts::descriptor::hevc::*;
 
-pub fn parse_descriptor(mut stream: &mut BitReader<BigEndian>) -> Hevc {
+pub fn parse_descriptor(stream: &mut BitReader<BigEndian>) -> Hevc {
   let _descriptor_id = stream.read::<u8>(8).unwrap();
-  let descriptor_length = stream.read::<u8>(8).unwrap();
+  let _descriptor_length = stream.read::<u8>(8).unwrap();
   let profile_space = stream.read::<u8>(2).unwrap();
   let tier_flag = stream.read_bit().unwrap();
   let profile_idc = stream.read::<u8>(5).unwrap();
@@ -13,12 +13,12 @@ pub fn parse_descriptor(mut stream: &mut BitReader<BigEndian>) -> Hevc {
   let interlaced_source_flag = stream.read_bit().unwrap();
   let non_packed_constraint_flag = stream.read_bit().unwrap();
   let frame_only_constraint_flag = stream.read_bit().unwrap();
-  let profile_idc_description = stream.read::<u64>(44).unwrap();
-  let level_idc = stream.read::<u8>(8).unwrap();
+  let _profile_idc_description = stream.read::<u64>(44).unwrap();
+  let _level_idc = stream.read::<u8>(8).unwrap();
   let temporal_layer_subset_flag = stream.read_bit().unwrap();
-  let hevc_still_present_flag = stream.read_bit().unwrap();
-  let hevc_24hr_picture_present_flag = stream.read_bit().unwrap();
-  let reserved = stream.read::<u8>(5).unwrap();
+  let _hevc_still_present_flag = stream.read_bit().unwrap();
+  let _hevc_24hr_picture_present_flag = stream.read_bit().unwrap();
+  let _reserved = stream.read::<u8>(5).unwrap();
 
   println!("HEVC descriptor");
   println!("profile_space {:?}", profile_space);

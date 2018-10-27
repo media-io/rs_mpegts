@@ -11,7 +11,7 @@ pub struct Wrapper {
 }
 
 impl Wrapper {
-  pub fn append_data(self, data: Vec<u8>) -> Vec<Packet> {
+  pub fn append_data(self, _data: Vec<u8>) -> Vec<Packet> {
     
     let program_map_pid = 256;
     let program_number = 1;
