@@ -1,7 +1,7 @@
 
 use mpegts::stream_id::StreamId;
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub enum TrickModeControl {
   FastForward,
   SlowMotion,
@@ -11,18 +11,18 @@ pub enum TrickModeControl {
   Reserved,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct DsmTrickMode {
   pub trick_mode_control: TrickModeControl,
   pub info: u8
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct PesExtension {
   pub pes_private_data: Vec<u8>,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct PesHeader {
   pub scrambling_control: u8,
   pub priority: bool,
@@ -40,7 +40,7 @@ pub struct PesHeader {
   pub pes_header_length: u8
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct PacketizedElementaryStream {
   pub stream_id: StreamId,
   pub header: Option<PesHeader>,

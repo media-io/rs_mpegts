@@ -4,3 +4,4 @@ extern crate crc;
 pub mod mpegts;
 pub mod parser;
 pub mod writer;
+pub mod wrapper;

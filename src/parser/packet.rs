@@ -68,10 +68,19 @@ fn parse_some_packets(packet: &[u8]) -> Vec<Packet> {
     }
     let data_length : usize = 184 - count as usize;
     
-    if payload_presence && program_id != 8191 {
+    if payload_presence {
       let mut data = vec![0; data_length];
       reader.read_bytes(&mut data).unwrap();
-      packet.data = data;
+
+      let mut fill_data = true;
+      for byte in data.clone() {
+        if byte != 0xff {
+          fill_data = false;
+        }
+      }
+      if !fill_data && program_id != 8191 {
+        packet.data = data;
+      }
     } else {
 
       let mut data = vec![0; data_length];

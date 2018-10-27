@@ -117,8 +117,8 @@ fn write_program_map(pmt: &ProgramMap) -> Vec<u8> {
       writer.write(3, 0b111).unwrap();
       writer.write(13, program.elementary_pid).unwrap();
       writer.write(4, 0b1111).unwrap();
-      writer.write(12, program.es_info.len() as u16).unwrap();
-      writer.write_bytes(&program.es_info).unwrap();
+      writer.write(12, program.es_info.data.len() as u16).unwrap();
+      writer.write_bytes(&program.es_info.data).unwrap();
     }
   }
   data
