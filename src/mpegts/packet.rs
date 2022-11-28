@@ -5,7 +5,7 @@ use mpegts::payload::Payload;
 use mpegts::program_association::*;
 use mpegts::program_map::*;
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Default)]
 pub struct Packet {
     pub transport_error_indicator: bool,
     pub transport_priority: bool,
