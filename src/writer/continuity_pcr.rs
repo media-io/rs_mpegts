@@ -12,12 +12,9 @@ pub struct ContinuityPcr {
 
 impl ContinuityPcr {
     pub fn get(&mut self, program_id: u16) -> Option<PcrStream> {
-        for stream in self.streams.clone() {
-            if stream.program_id == program_id {
-                return Some(stream);
-            }
-        }
-        None
+        self.streams
+            .iter()
+            .find_map(|stream| (stream.program_id == program_id).then(|| stream.clone()))
     }
 
     pub fn update(&mut self, program_id: u16, pcr: u64, index: usize) {
