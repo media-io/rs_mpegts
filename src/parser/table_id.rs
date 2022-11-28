@@ -20,7 +20,7 @@ pub fn get_table_id(table_id: u8) -> TableId {
     0x3f => TableId::IsoIec_13818_6_DsmCc_Addressable,
     0xff => TableId::Forbidden,
        _ => {
-      if (table_id >= 0x08) && (table_id <= 0x39) {
+      if (0x08..=0x39).contains(&table_id) {
         TableId::Reserved
       } else {
         TableId::Other

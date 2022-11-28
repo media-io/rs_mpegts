@@ -4,14 +4,14 @@ use mpegts::adaptation_field::AdaptationField;
 use parser::program_clock::parse_program_clock;
 use parser::adaptation_field_extension::parse_adaptation_field_extension;
 
-pub fn parse_adaptation_field(mut stream: &mut BitReader<BigEndian>, mut count: &mut usize) -> Option<AdaptationField> {
+pub fn parse_adaptation_field(stream: &mut BitReader<BigEndian>, count: &mut usize) -> Option<AdaptationField> {
   let length = stream.read::<u8>(8).unwrap();
   *count = 1;
   // println!("adapt length {:?}", length);
 
   if length == 0 {
     let adaptation_field = AdaptationField {
-      length: length,
+      length,
       discontinuity_indicator: false,
       random_access_indicator: false,
       elementary_stream_priority_indicator: false,
@@ -42,11 +42,11 @@ pub fn parse_adaptation_field(mut stream: &mut BitReader<BigEndian>, mut count: 
   let mut adaptation_field_extension = None;
 
   if pcr_flag {
-    pcr = Some(parse_program_clock(&mut stream));
+    pcr = Some(parse_program_clock(stream));
     *count += 6;
   }
   if opcr_flag {
-    opcr = Some(parse_program_clock(&mut stream));
+    opcr = Some(parse_program_clock(stream));
     *count += 6;
   }
   if splicing_point_flag {
@@ -70,7 +70,7 @@ pub fn parse_adaptation_field(mut stream: &mut BitReader<BigEndian>, mut count: 
     *count += 1 + transport_private_data_length as usize;
   }
   if adaptation_field_extension_flag {
-    adaptation_field_extension = parse_adaptation_field_extension(&mut stream, &mut count);
+    adaptation_field_extension = parse_adaptation_field_extension(stream, count);
   }
 
   if *count < length as usize {
@@ -84,15 +84,15 @@ pub fn parse_adaptation_field(mut stream: &mut BitReader<BigEndian>, mut count: 
   }
 
   let adaptation_field = AdaptationField {
-    length: length,
-    discontinuity_indicator: discontinuity_indicator,
-    random_access_indicator: random_access_indicator,
-    elementary_stream_priority_indicator: elementary_stream_priority_indicator,
-    pcr: pcr,
-    opcr: opcr,
-    splice_countdown: splice_countdown,
-    transport_private_data: transport_private_data,
-    adaptation_field_extension: adaptation_field_extension,
+    length,
+    discontinuity_indicator,
+    random_access_indicator,
+    elementary_stream_priority_indicator,
+    pcr,
+    opcr,
+    splice_countdown,
+    transport_private_data,
+    adaptation_field_extension,
   };
 
   Some(adaptation_field)

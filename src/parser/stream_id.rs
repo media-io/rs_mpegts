@@ -31,15 +31,13 @@ pub fn get_stream_id(stream_id: u8) -> StreamId {
     0xbe => StreamId::PaddingStream,
     0xbf => StreamId::NavigationData,
        _ => {
-      if (stream_id >= 0xc0) && (stream_id <= 0xdf) {
+      if (0xc0..=0xdf).contains(&stream_id) {
         StreamId::AudioStream{id: stream_id}
+      } else if (0xe0..=0xef).contains(&stream_id) {
+        StreamId::VideoStream{id: stream_id}
       } else {
-        if (stream_id >= 0xe0) && (stream_id <= 0xef) {
-          StreamId::VideoStream{id: stream_id}
-        } else {
-          println!("Unknown Stream ID {:?}", stream_id);
-          StreamId::Unknown
-        }
+        println!("Unknown Stream ID {:?}", stream_id);
+        StreamId::Unknown
       }
     }
   }

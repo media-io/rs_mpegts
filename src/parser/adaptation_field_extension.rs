@@ -42,8 +42,8 @@ pub fn parse_adaptation_field_extension(stream: &mut BitReader<BigEndian>, count
   }
 
   Some(AdaptationFieldExtension{
-    legal_time_window: legal_time_window,
-    piecewise_rate: piecewise_rate,
-    seamless_splice: seamless_splice,
+    legal_time_window,
+    piecewise_rate,
+    seamless_splice,
   })
 }

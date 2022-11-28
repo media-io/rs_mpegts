@@ -1,7 +1,7 @@
 
 use std::fmt;
 
-#[derive(Debug, PartialEq, Clone)]
+#[derive(Debug, PartialEq, Eq, Clone)]
 #[allow(non_camel_case_types)]
 pub enum StreamId {
   Reserved,

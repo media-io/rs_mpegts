@@ -21,7 +21,7 @@ pub struct Packet {
 
 impl fmt::Display for Packet {
   fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-    if self.data.len() > 0 {
+    if !self.data.is_empty() {
       write!(f, "Packet with PID: {:04} (data size = {}), payload {:?}", self.program_id, self.data.len(), self.payload)
     } else {
       // write!(f, "PID: {:04}", self.program_id)

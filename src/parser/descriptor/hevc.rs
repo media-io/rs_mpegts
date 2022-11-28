@@ -42,7 +42,7 @@ pub fn parse_descriptor(stream: &mut BitReader<BigEndian>) -> Hevc {
   }
 
   Hevc{
-    profile_space: profile_space,
+    profile_space,
     // tier_flag: tier_flag,
     // profile_idc: profile_idc,
     // profile_compatibility_indication: profile_compatibility_indication,

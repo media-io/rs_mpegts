@@ -30,9 +30,9 @@ impl ContinuityPcr {
       }
     }
     self.streams.push(PcrStream{
-      program_id: program_id,
-      pcr: pcr,
-      index: index,
+      program_id,
+      pcr,
+      index,
     })
   }
 }

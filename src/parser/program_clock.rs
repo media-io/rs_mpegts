@@ -8,7 +8,7 @@ pub fn parse_program_clock(stream: &mut BitReader<BigEndian>) -> ProgramClock {
   let extension = stream.read::<u16>(9).unwrap();
 
   ProgramClock{
-    base: base,
-    extension: extension
+    base,
+    extension
   }
 }

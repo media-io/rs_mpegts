@@ -7,6 +7,6 @@ pub struct ProgramClock {
 
 impl ProgramClock {
   pub fn get(&self) -> u64 {
-    return self.base * 300 + self.extension as u64;
+    self.base * 300 + self.extension as u64
   }
 }

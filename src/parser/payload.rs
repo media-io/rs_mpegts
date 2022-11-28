@@ -34,29 +34,29 @@ fn parse_table(stream: &mut BitReader<BigEndian>, count: &mut usize, length: u16
   (table_id_extension, data)
 }
 
-pub fn parse_program_association(mut stream: &mut BitReader<BigEndian>, mut count: &mut usize, length: u16) -> ProgramAssociation {
-  let (transport_stream_id, data) = parse_table(&mut stream, &mut count, length);
+pub fn parse_program_association(stream: &mut BitReader<BigEndian>, count: &mut usize, length: u16) -> ProgramAssociation {
+  let (transport_stream_id, data) = parse_table(stream, count, length);
 
   let mut associations = vec![];
 
   for i in 0..data.len() / 4 {
-    let program_number = ((data[0 + i * 4] as u16) << 8) + data[1 + i * 4] as u16;
+    let program_number = ((data[i * 4] as u16) << 8) + data[1 + i * 4] as u16;
     let program_pid = ((data[2 + i * 4] as u16 & 0x001f) << 8) + data[3 + i * 4] as u16;
 
     associations.push(Association{
-      program_number: program_number,
+      program_number,
       program_map_pid: program_pid
     });
   }
 
   ProgramAssociation{
-    transport_stream_id: transport_stream_id,
+    transport_stream_id,
     table: associations
   }
 }
 
-pub fn parse_program_map(mut stream: &mut BitReader<BigEndian>, mut count: &mut usize, length: u16) -> ProgramMap {
-  let (table_id_extension, data) = parse_table(&mut stream, &mut count, length);
+pub fn parse_program_map(stream: &mut BitReader<BigEndian>, count: &mut usize, length: u16) -> ProgramMap {
+  let (table_id_extension, data) = parse_table(stream, count, length);
 
   // println!("{:?}", data);
 
@@ -101,9 +101,9 @@ pub fn parse_program_map(mut stream: &mut BitReader<BigEndian>, mut count: &mut 
 
     programs.push(Program{
       stream_id: get_stream_id(stream_type),
-      elementary_pid: elementary_pid,
+      elementary_pid,
       es_info: EsInfo{
-        descriptor: descriptor,
+        descriptor,
         hevc: hevc_descriptor,
         data: es_info.to_vec()
       }
@@ -112,12 +112,12 @@ pub fn parse_program_map(mut stream: &mut BitReader<BigEndian>, mut count: &mut 
 
   ProgramMap {
     program_number: table_id_extension,
-    pcr_pid: pcr_pid,
-    programs: programs
+    pcr_pid,
+    programs
   }
 }
 
-pub fn parse_payload(mut stream: &mut BitReader<BigEndian>, mut count: &mut usize) -> Option<Payload> {
+pub fn parse_payload(stream: &mut BitReader<BigEndian>, count: &mut usize) -> Option<Payload> {
   let mut header : [u8; 3] = [0; 3];
   let _ret = stream.read_bytes(&mut header);
   // println!("{:?}", header);
@@ -243,7 +243,7 @@ pub fn parse_payload(mut stream: &mut BitReader<BigEndian>, mut count: &mut usiz
 
             dsm_trick_mode = Some(DsmTrickMode{
               trick_mode_control: mode,
-              info: info
+              info
             });
           }
           if crc_flag {
@@ -283,20 +283,20 @@ pub fn parse_payload(mut stream: &mut BitReader<BigEndian>, mut count: &mut usiz
 
 
           header = Some(PesHeader{
-            scrambling_control: scrambling_control,
-            priority: priority,
-            data_alignment_indicator: data_alignment_indicator,
-            copyright: copyright,
-            original: original,
-            pts: pts,
-            dts: dts,
-            escr: escr,
-            es_rate: es_rate,
-            dsm_trick_mode: dsm_trick_mode,
-            additional_copy_info: additional_copy_info,
-            previous_pes_packet_crc: previous_pes_packet_crc,
-            pes_extension: pes_extension,
-            pes_header_length: pes_header_length
+            scrambling_control,
+            priority,
+            data_alignment_indicator,
+            copyright,
+            original,
+            pts,
+            dts,
+            escr,
+            es_rate,
+            dsm_trick_mode,
+            additional_copy_info,
+            previous_pes_packet_crc,
+            pes_extension,
+            pes_header_length
           });
         } else {
           let _more = stream.read::<u8>(6).unwrap();
@@ -317,8 +317,8 @@ pub fn parse_payload(mut stream: &mut BitReader<BigEndian>, mut count: &mut usiz
 
       pes = Some(PacketizedElementaryStream{
         stream_id: get_stream_id(es_id),
-        header: header,
-        additional_data: additional_data,
+        header,
+        additional_data,
       });
     },
     (0xFF, _, _) => {
@@ -336,10 +336,10 @@ pub fn parse_payload(mut stream: &mut BitReader<BigEndian>, mut count: &mut usiz
 
       match get_table_id(table) {
         TableId::ProgramAssociation => {
-          pat = Some(parse_program_association(&mut stream, &mut count, syntax_section_length));
+          pat = Some(parse_program_association(stream, count, syntax_section_length));
         },
         TableId::ProgramMap => {
-          pmt = Some(parse_program_map(&mut stream, &mut count, syntax_section_length));
+          pmt = Some(parse_program_map(stream, count, syntax_section_length));
         },
         _ => {}
       }
@@ -347,8 +347,8 @@ pub fn parse_payload(mut stream: &mut BitReader<BigEndian>, mut count: &mut usiz
   }
 
   Some(Payload{
-    pat: pat,
-    pmt: pmt,
-    pes: pes
+    pat,
+    pmt,
+    pes
   })
 }

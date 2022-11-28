@@ -23,7 +23,7 @@ pub fn write_payload(writer: &mut BitWriter<BigEndian>, payload: &Option<Payload
           writer.write(8, 1).unwrap();
           writer.write(8, get_stream_id(pes.stream_id.clone())).unwrap();
 
-          let data = write_packetized_elementary_stream(&pes);
+          let data = write_packetized_elementary_stream(pes);
 
           match pes.stream_id {
             StreamId::VideoStream{id: _id} => {
@@ -45,7 +45,7 @@ pub fn write_payload(writer: &mut BitWriter<BigEndian>, payload: &Option<Payload
           writer.write_bit(true).unwrap();
           writer.write_bit(false).unwrap();
           writer.write(2, 0b11).unwrap();
-          let data = write_program_association(&pat);
+          let data = write_program_association(pat);
           writer.write(12, data.len() as u16 + 4).unwrap();
           writer.write_bytes(&data).unwrap();
 
@@ -63,7 +63,7 @@ pub fn write_payload(writer: &mut BitWriter<BigEndian>, payload: &Option<Payload
           writer.write_bit(true).unwrap();
           writer.write_bit(false).unwrap();
           writer.write(2, 0b11).unwrap();
-          let data = write_program_map(&pmt);
+          let data = write_program_map(pmt);
           writer.write(12, data.len() as u16 + 4).unwrap();
           writer.write_bytes(&data).unwrap();
           let mut digest = crc32::Digest::new(crc32::IEEE);
@@ -220,7 +220,7 @@ fn write_packetized_elementary_stream(pes: &PacketizedElementaryStream) -> Vec<u
       }
     }
 
-    if pes.additional_data.len() > 0 {
+    if !pes.additional_data.is_empty() {
       let _res = writer.write_bytes(&pes.additional_data);
     }
   }

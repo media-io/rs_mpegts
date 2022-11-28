@@ -25,8 +25,8 @@ pub fn parse_descriptor(stream: &mut BitReader<BigEndian>) -> Aac {
   let _ = stream.read_bytes(&mut additional_info);
 
   Aac{
-    profile_and_level: profile_and_level,
-    aac_type: aac_type,
-    additional_info: additional_info,
+    profile_and_level,
+    aac_type,
+    additional_info,
   }
 }

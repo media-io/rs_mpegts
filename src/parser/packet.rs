@@ -43,12 +43,12 @@ fn parse_some_packets(packet: &[u8]) -> Vec<Packet> {
     let continuity_counter = reader.read::<u8>(4).unwrap();
 
     let mut packet = Packet {
-      transport_error_indicator: transport_error_indicator,
-      transport_priority: transport_priority,
-      program_id: program_id,
-      transport_scrambling_control: transport_scrambling_control,
-      continuity_counter: continuity_counter,
-      payload_presence: payload_presence,
+      transport_error_indicator,
+      transport_priority,
+      program_id,
+      transport_scrambling_control,
+      continuity_counter,
+      payload_presence,
       adaptation_field: None,
       payload: None,
       data: vec![]

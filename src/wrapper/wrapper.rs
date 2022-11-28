@@ -20,13 +20,13 @@ impl Wrapper {
     let pat = ProgramAssociation{
       transport_stream_id: 0,
       table: vec![Association{
-        program_number: program_number,
-        program_map_pid: program_map_pid
+        program_number,
+        program_map_pid
       }],
     };
 
     let pmt = ProgramMap{
-      program_number: program_number,
+      program_number,
       pcr_pid: video_pid,
       programs: vec![Program{
         stream_id: StreamId::Itu_T_H265_Video,

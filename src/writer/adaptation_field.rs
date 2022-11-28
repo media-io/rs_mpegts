@@ -16,7 +16,7 @@ pub fn write(af: &AdaptationField) -> Vec<u8> {
     af_writer.write_bit(af.pcr.is_some()).unwrap();
     af_writer.write_bit(af.opcr.is_some()).unwrap();
     af_writer.write_bit(af.splice_countdown.is_some()).unwrap();
-    af_writer.write_bit(af.transport_private_data.len() > 0).unwrap();
+    af_writer.write_bit(!af.transport_private_data.is_empty()).unwrap();
     af_writer.write_bit(af.adaptation_field_extension.is_some()).unwrap();
 
     match af.pcr {
@@ -44,7 +44,7 @@ pub fn write(af: &AdaptationField) -> Vec<u8> {
       }
     }
 
-    if af.transport_private_data.len() > 0 {
+    if !af.transport_private_data.is_empty() {
       af_writer.write(8, af.transport_private_data.len() as u8).unwrap();
       af_writer.write_bytes(&af.transport_private_data).unwrap();
     }
@@ -60,7 +60,7 @@ pub fn write_adaptation_field(writer: &mut BitWriter<BigEndian>, adaptation_fiel
     None => {},
     Some(ref af) => {
       if af.length == 0 {
-        writer.write(8, 0 as u8).unwrap();
+        writer.write(8, 0_u8).unwrap();
         return
       }
 

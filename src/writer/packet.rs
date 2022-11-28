@@ -33,12 +33,12 @@ pub fn write_packets<W: Write + Seek>(stream: &mut W, packets: &Vec<Packet>, cc:
   }
 }
 
-pub fn write_packet<W: Write + Seek>(mut stream: &mut W, packet: &Packet, mut cc: &mut ContinuityCounter) {
+pub fn write_packet<W: Write + Seek>(mut stream: &mut W, packet: &Packet, cc: &mut ContinuityCounter) {
   let mut writer = BitWriter::<BigEndian>::new(&mut stream);
 
   let mut continuity_counter = 0;
 
-  match get_stream(&mut cc, packet.program_id) {
+  match get_stream(cc, packet.program_id) {
     Some(counter) => {
       continuity_counter = counter;
     },
