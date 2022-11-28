@@ -1,8 +1,7 @@
-
 use mpegts::stream_type::*;
 
 pub fn get_stream_type(stream_type: u8) -> StreamType {
-  match stream_type {
+    match stream_type {
     0x00 => StreamType::Reserved,
     0x01 => StreamType::Reserved,
     0x02 => StreamType::VideoStreamHeaderParametersForItuTRecH262IsoIec138182AndIsoIec111722,
@@ -61,7 +60,7 @@ pub fn get_stream_type(stream_type: u8) -> StreamType {
     0xA0 => StreamType::VideoLanFourCc,
     0xFF => StreamType::Forbidden,
        _ => {
-      if (stream_type >= 0x37) && (stream_type <= 0x3F) {
+      if (0x37..=0x3F).contains(&stream_type) {
         StreamType::Reserved
       } else {
         StreamType::Other

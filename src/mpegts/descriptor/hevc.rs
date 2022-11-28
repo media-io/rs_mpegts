@@ -1,5 +1,4 @@
-
 #[derive(Debug, Clone)]
 pub struct Hevc {
-  pub profile_space: u8
+    pub profile_space: u8,
 }
