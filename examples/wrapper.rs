@@ -12,7 +12,7 @@ fn main() {
     //   id: 301
     // };
 
-    let wrapper = wrapper::Wrapper { programs: vec![] };
+    let wrapper = Wrapper { programs: vec![] };
 
     let packets = wrapper.append_data(vec![0; 100]);
 
