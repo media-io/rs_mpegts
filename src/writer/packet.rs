@@ -31,9 +31,9 @@ pub fn write_packets<W: Write + Seek>(
                 end_position - origin_position
             );
             println!("{:?}", packet);
+            let fill = &[0xFF];
             for _i in 0..fill_count {
-                let mut fill = vec![0xFF];
-                let _res = stream.write(&mut fill);
+                let _res = stream.write(fill);
             }
         }
     }
